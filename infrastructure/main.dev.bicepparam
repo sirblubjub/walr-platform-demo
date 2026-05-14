@@ -1,11 +1,11 @@
 using 'main.bicep'
 
-param environmentName =  'Dev'
+param environmentName =  'dev'
 
 param tags = {
-  Environment: 'Dev'
-  Solution: 'Walr-Platform-Demo'
-  Location: 'UkSouth'
-  ManagedBy: 'Bicep'
-  Owner: 'Platform-Team'
+  Environment: 'dev'
+  Solution: 'walr-platform-demo'
+  Location: 'uksouth'
+  ManagedBy: 'bicep'
+  Owner: 'platform-team'
 }
