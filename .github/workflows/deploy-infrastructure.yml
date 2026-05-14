@@ -1,0 +1,32 @@
+on:
+    push:
+        branches:
+            - main
+name: Deploy Infrastructure To Dev
+permissions:
+    id-token: write
+    contents: read
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        environment: dev
+        steps:
+            # Checkout code
+            - uses: actions/checkout@v4
+
+              # Log into Azure
+            - uses: azure/login@v2
+              with:
+                  client-id: ${{ vars.AZURE_CLIENT_ID }}
+                  tenant-id: ${{ vars.AZURE_TENANT_ID }}
+                  subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+              # Deploy Bicep file
+            - name: deploy
+              uses: azure/arm-deploy@v1
+              with:
+                  subscriptionId: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+                  resourceGroupName: ${{ vars.AZURE_RG }}
+                  template: infrastructure/main.bicep
+                  parameters: infrastructure/main.dev.bicepparam
+                  failOnStdErr: false
